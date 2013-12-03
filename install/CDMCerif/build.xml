@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- ============================================================= -->
+<!--     ANT Script for Kettle 'CDMCerif' step.                    -->
+<!-- ============================================================= -->
+<project name="CDMCerif" default="build" basedir="../../">
+
+  <import file="../CanonicalDataModel/build.xml" />
+
+  <property file="install/CDMCerif/build.properties" />
+  <property name="build" value="${tmp.dir}/tmp/CDMCerif/classes" />
+
+  <target name="init">
+    <mkdir dir="${tmp.dir}/tmp" />
+    <mkdir dir="${tmp.dir}/tmp/CDMCerif" />
+    <mkdir dir="${tmp.dir}/tmp/CDMCerif/classes" />
+    <mkdir dir="${tmp.dir}/tmp/CDMCerif/dist" />
+  </target>
+
+  <target name="build" depends="CanonicalDataModel.build,init" >
+    <javac includeantruntime="false"
+           destdir="${build}"
+           debug="${java.debug}"
+           classpath="${CDMCerif.build.classpath}"
+    >
+      <src path="code/CDMCerif/src"/>
+    </javac>
+    <jar destfile="${tmp.dir}/tmp/CDMCerif/dist/${CDMCerif.jar.name}">
+      <fileset dir="${tmp.dir}/tmp/CDMCerif/classes"/>
+      <!-- Include XML from the plugin source tree. -->
+      <fileset dir="code/CDMCerif/src" includes="**/*xml"/>
+    </jar>
+    <copy todir="${tmp.dir}/tmp/CDMCerif/dist/">
+      <fileset dir="code/CDMCerif/resources">
+        <include name="*" />
+      </fileset>
+      <fileset file="${lib.root}/../tmp/CanonicalDataModel/dist/cta-buzzard-canonicaldatamodel.jar" />
+      <fileset file="${lib.root}/qizxopen.jar" />
+      <fileset file="${lib.root}/resolver.jar" />
+      <fileset file="${lib.root}/../tmp/xml-update/dist/cta-xml-update.jar" />
+      <fileset file="${lib.root}/../tmp/QizxOpen/dist/cta-xml-update-qizxopen.jar" />
+    </copy>
+  </target>
+
+  <target name="clean">
+    <delete dir="${tmp.dir}/tmp/CDMCerif"/>
+  </target>
+</project>

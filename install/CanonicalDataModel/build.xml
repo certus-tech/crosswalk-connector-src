@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- ============================================================= -->
+<!--     ANT Script for CanonicalDataModel                             -->
+<!-- ============================================================= -->
+<project name="CanonicalDataModel" default="build" basedir="../../">
+
+  <property file="install/CanonicalDataModel/build.properties" />
+
+  <target name="CanonicalDataModel.init" description="Creates necessary temp dirs">
+    <mkdir dir="${tmp.dir}/tmp" />
+    <mkdir dir="${tmp.dir}/tmp/CanonicalDataModel" />
+    <mkdir dir="${tmp.dir}/tmp/CanonicalDataModel/jaxb" />
+    <mkdir dir="${tmp.dir}/tmp/CanonicalDataModel/classes" />
+    <mkdir dir="${tmp.dir}/tmp/CanonicalDataModel/dist" />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Build the CanonicalDataModel schema.                                    -->
+  <!-- =================================================================== -->
+  <target name="CanonicalDataModel.jaxb" depends="CanonicalDataModel.init">
+    <exec dir="." executable="/usr/local/jdk/bin/xjc" >
+      <arg line="${rc_jaxb_src} -p ${rc_jaxb_package} -d ${tmp.dir}/tmp/CanonicalDataModel/jaxb" />
+    </exec>
+  </target>
+
+  <target name="CanonicalDataModel.compile" depends="CanonicalDataModel.jaxb" description="Builds CanonicalDataModel">
+    <javac includeantruntime="false" destdir="${tmp.dir}/tmp/CanonicalDataModel/classes"
+           debug="${java.debug}"
+           classpath="${build.classpath}"
+    >
+      <src path="code/CanonicalDataModel/src"/>
+      <src path="${tmp.dir}/tmp/CanonicalDataModel/jaxb"/>
+    </javac>
+  </target>
+  
+  <target name="build" depends="CanonicalDataModel.compile" description="Builds CanonicalDataModel">
+    <jar destfile="${tmp.dir}/tmp/CanonicalDataModel/dist/${jar.name}">
+      <fileset dir="${tmp.dir}/tmp/CanonicalDataModel/classes"/>
+      <!-- Include XML and XSD for CDM. -->
+      <fileset dir="code/CanonicalDataModel/resources"/>
+    </jar>
+  </target>
+  <target name="clean">
+    <delete dir="${tmp.dir}/tmp/CanonicalDataModel"/>
+  </target>
+
+</project>

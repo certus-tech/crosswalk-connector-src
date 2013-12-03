@@ -1,0 +1,52 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+TODO: cfClassId and cfClassSchemeId need identify what should be inserted.
+if cfResPubl.cfResPubl_Event with CONFERENCE_LOCATION exists
+  update cfEvenId = CONFERENCE_LOCATION
+else
+  create cfResPubl.cfResPubl_Event for PUBLICATION_ID with cfEventId = CONFERENCE_LOCATION
+:)
+
+declare variable $CONFERENCE_LOCATION external;
+declare variable $PUBLICATION_ID external;
+
+let $resPubl := /cf:CERIF/cf:cfResPubl[cf:cfResPublId = $PUBLICATION_ID]
+let $publicationEvent := /cf:CERIF/cf:cfResPubl_Event[cf:cfResPublId = $PUBLICATION_ID and cf:cfEventId = $CONFERENCE_LOCATION]
+let $event := /cf:CERIF/cf:cfEvent[cf:cfEventId = $CONFERENCE_LOCATION]
+return
+if ($PUBLICATION_ID and $CONFERENCE_LOCATION) then (
+  if ($resPubl) then (
+    if ($publicationEvent) then (
+      (: No need to modify anything. :)
+    ) else (
+      insert node <cf:cfResPubl_Event>
+                    <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                    <cf:cfEventId>{string($CONFERENCE_LOCATION)}</cf:cfEventId>
+                    <cf:cfClassId>68aa07f4-34c9-11e1-b86c-0800200c9a66</cf:cfClassId> <!-- 'Event' (CERIF 1.3 Vocabulary) -->
+                    <cf:cfClassSchemeId>6e0d9af0-1cd6-11e1-8bc2-0800200c9a66</cf:cfClassSchemeId>
+                  </cf:cfResPubl_Event>
+      into /cf:CERIF
+    )
+  ) else (
+    insert node <cf:cfResPubl>
+                  <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                </cf:cfResPubl>
+    into /cf:CERIF,
+    insert node <cf:cfResPubl_Event>
+                  <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                  <cf:cfEventId>{string($CONFERENCE_LOCATION)}</cf:cfEventId>
+                  <cf:cfClassId>68aa07f4-34c9-11e1-b86c-0800200c9a66</cf:cfClassId>
+                  <cf:cfClassSchemeId>6e0d9af0-1cd6-11e1-8bc2-0800200c9a66</cf:cfClassSchemeId>
+                </cf:cfResPubl_Event>
+    into /cf:CERIF
+  ),
+  if ($event) then (
+    (: Event already exists. :)
+  ) else (
+    insert node <cf:cfEvent>
+                  <cf:cfEventId>{string($CONFERENCE_LOCATION)}</cf:cfEventId>
+                </cf:cfEvent>
+    into /cf:CERIF
+  )
+) else ()

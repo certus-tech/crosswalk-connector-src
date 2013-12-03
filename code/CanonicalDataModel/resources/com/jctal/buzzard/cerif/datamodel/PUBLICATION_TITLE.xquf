@@ -1,0 +1,42 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfResPubl with PUBLICATION_ID exists
+  update cfTitle = PUBLICATION_TITLE
+else
+  create cfResPubl for PUBLICATION_ID with cfTitle = PUBLICATION_TITLE
+:)
+
+declare variable $PUBLICATION_ID external;
+declare variable $PUBLICATION_TITLE external;
+declare variable $PUBLICATION_LANG_CODE external;
+
+let $resPubl := /cf:CERIF/cf:cfResPubl[cf:cfResPublId = $PUBLICATION_ID]
+return
+if ($PUBLICATION_ID and $PUBLICATION_TITLE) then (
+  if ($resPubl) then (
+    if ($resPubl/cf:cfTitle) then (
+      (: No need to modify anything. :)
+    ) else if ($PUBLICATION_LANG_CODE) then (
+      insert node <cf:cfTitle cfLangCode="{string($PUBLICATION_LANG_CODE)}" cfTrans="o">{string($PUBLICATION_TITLE)}</cf:cfTitle>
+      as last into $resPubl
+    ) else (
+      insert node <cf:cfTitle cfLangCode="unknown" cfTrans="o">{string($PUBLICATION_TITLE)}</cf:cfTitle>
+      as last into $resPubl
+    )
+  ) else (
+     if ($PUBLICATION_LANG_CODE) then (
+        insert node <cf:cfResPubl>
+                      <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                      <cf:cfTitle cfLangCode="{string($PUBLICATION_LANG_CODE)}" cfTrans="o">{string($PUBLICATION_TITLE)}</cf:cfTitle>
+                    </cf:cfResPubl>
+        into /cf:CERIF
+     ) else (
+        insert node <cf:cfResPubl>
+                      <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                      <cf:cfTitle cfLangCode="unknown" cfTrans="o">{string($PUBLICATION_TITLE)}</cf:cfTitle>
+                    </cf:cfResPubl>
+        into /cf:CERIF
+    )
+  )
+) else ()

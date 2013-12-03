@@ -1,0 +1,19 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if person with PERSON_ID exists
+  do nothing
+else
+  create person with PERSON_ID
+:)
+
+declare variable $PERSON_ID external;
+
+if ($PERSON_ID) then (
+  if (/cf:CERIF/cf:cfPers[cf:cfPersId = $PERSON_ID]) then (
+    (: No need to modify anything. :)
+  ) else (
+    insert node <cf:cfPers><cf:cfPersId>{string($PERSON_ID)}</cf:cfPersId></cf:cfPers>
+    into /cf:CERIF
+  )
+) else ()

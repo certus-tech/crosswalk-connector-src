@@ -1,0 +1,51 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfResPubl with PUBLICATION_ID exists
+  if cfFedId with PUBLICATION_DOI exists
+    do nothing
+  else
+    create cfFedId with cfFedId = PUBLICATION_DOI
+else
+  create cfResPubl with cfResPublId = PUBLICATION_ID
+  create cfFedId = PUBLICATION_DOI
+:)
+
+declare variable $PUBLICATION_DOI external;
+declare variable $PUBLICATION_ID external;
+
+let $doi := /cf:CERIF/cf:cfResPubl[cf:cfResPublId = $PUBLICATION_ID]
+let $doiFed := $doi/cf:cfFedId[cf:cfFedId = $PUBLICATION_DOI]
+return
+
+if ($PUBLICATION_DOI and $PUBLICATION_ID) then (
+  if ($doiFed) then (
+      (: No need to modify anything :)
+  ) else (
+    if ($doi) then (
+      insert node
+      <cf:cfFedId>
+        <cf:cfFedId>{string($PUBLICATION_DOI)}</cf:cfFedId>
+        <cf:cfFedId_Class>
+          <cf:cfClassId>pubmed-uuid</cf:cfClassId>
+          <cf:cfClassSchemeId>ukriss:identifier-types-scheme-uuid</cf:cfClassSchemeId>
+        </cf:cfFedId_Class>
+      </cf:cfFedId>
+      into $doi
+    ) else (
+      insert node
+      <cf:cfResPubll>
+        <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+        <cf:cfFedId>
+          <cf:cfFedId>{string($PUBLICATION_DOI)}</cf:cfFedId>
+          <cf:cfFedId_Class>
+            <cf:cfClassId>pubmed-uuid</cf:cfClassId>
+            <cf:cfClassSchemeId>ukriss:identifier-types-scheme-uuid</cf:cfClassSchemeId>
+          </cf:cfFedId_Class>
+        </cf:cfFedId>
+      </cf:cfResPubll>
+      into /cf:CERIF
+    )
+  )
+
+) else ()

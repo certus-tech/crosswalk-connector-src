@@ -1,0 +1,44 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+
+if cfPers_ResPubl with PUBLICATION_AUTHOR exists
+  if cfResPublId with PUBLICATION_ID exists
+    do nothing
+  else
+    create cfResPublId with cfResPublId = PUBLICATION_ID
+else
+  create cfPers_ResPubl with cfPersId = PUBLICATION_AUTHOR
+  create cfResPublId = PUBLICATION_ID
+:)
+
+declare variable $PUBLICATION_AUTHOR external;
+declare variable $PUBLICATION_ID external;
+
+
+let $author := /cf:CERIF/cf:cfPers_ResPubl[
+  cf:cfPersId = $PUBLICATION_AUTHOR and cf:cfResPublId = $PUBLICATION_ID
+]
+let $authorPers := /cf:CERIF/cf:cfPers[cf:cfPersId = $PUBLICATION_AUTHOR]
+return
+if ($PUBLICATION_AUTHOR and $PUBLICATION_ID) then (
+  if ($author) then (
+      (: No need to modify anything :)
+  ) else (
+    insert node
+      <cf:cfPers_ResPubl>
+        <cf:cfPersId>{string($PUBLICATION_AUTHOR)}</cf:cfPersId>        
+        <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+        <cf:cfClassId>49815870-1cfe-11e1-8bc2-0800200c9a66</cf:cfClassId> <!-- 'Author' (CERIF 1.3 Vocabulary) -->
+        <cf:cfClassSchemeId>b7135ad0-1d00-11e1-8bc2-0800200c9a66</cf:cfClassSchemeId> <!-- 'Author' (CERIF 1.3 Vocabulary) -->
+      </cf:cfPers_ResPubl>
+    into /cf:CERIF
+  ),
+  if ($authorPers) then (
+    (: No need to modify anything :)
+  ) else (
+    insert node <cf:cfPers><cf:cfPersId>{string($PUBLICATION_AUTHOR)}</cf:cfPersId></cf:cfPers>
+    into /cf:CERIF
+  )
+
+) else ()

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE articleinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "UKRISSCrosswalk.ent">
+%BOOK_ENTITIES;
+]>
+<articleinfo id="arti-UKRISSCrosswalk-UKRISSCrosswalk">
+  <title>UKRISS Crosswalk Connector</title>
+
+  <subtitle>User Documentation</subtitle>
+
+  <productname>UKRISS Crosswalk</productname>
+
+  <productnumber></productnumber>
+
+  <edition>0</edition>
+
+  <pubsnumber>0</pubsnumber>
+
+  <abstract>
+    <para>Welcome to the home site of the UKRISS Crosswalk Connector. This document describes how to install, implement and configure the tool for the Crosswalk project.</para>
+
+    <para>The Crosswalk Connector is a demonstration tool to show how support can be given for extracting research data from a university's databases and exporting it to XML conformant with the CERIF
+    standard. The tool is a general purpose data integration tool with specialised steps for handling CERIF.</para>
+
+    <para>The Crosswalk Connector is available as a download from this site. It is open-source, and is freely available to the public under GPL3.</para>
+  </abstract>
+
+  <corpauthor><inlinemediaobject>
+      <imageobject>
+        <imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+      </imageobject>
+    </inlinemediaobject></corpauthor>
+
+  <xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</articleinfo>

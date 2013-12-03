@@ -1,0 +1,35 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+
+NOTE: We will NOT attempt to create persName beneath person as that is
+more complicated. This produces logically the same CERIF model.
+
+if persName with PERSON_ID exists
+  update cfFamilyNames = FAMILY_NAMES
+else
+  create persName for PERSON_ID with cfFamilyNames = FAMILY_NAMES
+
+:)
+
+declare variable $FAMILY_NAMES external;
+declare variable $PERSON_ID external;
+
+let $persName := /cf:CERIF/cf:cfPersName[cf:cfPersNameId = $PERSON_ID]
+return
+if ($PERSON_ID and $FAMILY_NAMES) then ( 
+  if ($persName) then (
+    if ($persName/cf:cfFamilyNames) then (
+      (: No need to modify anything. :)
+    ) else (
+      insert node <cf:cfFamilyNames>{string($FAMILY_NAMES)}</cf:cfFamilyNames>
+      after $persName/cf:cfPersNameId
+    )
+  ) else (
+    insert node <cf:cfPersName>
+                  <cf:cfPersNameId>{string($PERSON_ID)}</cf:cfPersNameId>
+                  <cf:cfFamilyNames>{string($FAMILY_NAMES)}</cf:cfFamilyNames>
+                </cf:cfPersName>
+    into /cf:CERIF
+  )
+) else ()

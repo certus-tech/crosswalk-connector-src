@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cdm xmlns="http://www.certus-tech.com/2012/Buzzard/CDM/1.0#">
+
+  <!--                -->
+  <!-- Person Details -->
+  <!--                -->
+  <field cerifSupported="true">
+    <name>PERSON_ID</name>
+    <displayName>Person Identifier</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>FIRST_NAMES</name>
+    <displayName>First Names</displayName>
+  </field>
+  <field cerifSupported="true">
+    <name>FAMILY_NAMES</name>
+    <displayName>Family Names</displayName>
+  </field>
+
+  <!--                     -->
+  <!-- Publication Details -->
+  <!--                     -->
+  <field cerifSupported="true">
+    <name>PUBLICATION_ID</name>
+    <displayName>Publication Identifier</displayName>
+  </field>
+  
+  <!-- The order of these definitions MATTER. They must appear in the reverse order 
+        that the CERIF XSD expects, such that when inserted last each time they end up in
+        the XML as a FILO pattern.
+  -->
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_URL</name>
+    <displayName>Publication URL</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_ISSN</name>
+    <displayName>Publication ISSN</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_ISBN</name>
+    <displayName>Publication ISBN</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_TOTAL_PAGES</name>
+    <displayName>Publication Total Pages</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_END_PAGE</name>
+    <displayName>Publication End Page</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_START_PAGE</name>
+    <displayName>Publication Start Page</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>ISSUE_NUMBER</name>
+    <displayName>Publication Issue Number</displayName>
+  </field>
+      
+  <field cerifSupported="true">
+    <name>PUBLICATION_EDITION</name>
+    <displayName>Publication Edition Number</displayName>
+  </field>
+      
+  <field cerifSupported="true">
+    <name>VOLUME_NUMBER</name>
+    <displayName>Publication Volume Number</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_DATE</name>
+    <displayName>Publication Date</displayName>
+  </field>
+
+  <!-- The fields publication title, language code and translation (as well as the publication ID, handled elsewhere) 
+  all uniquely identify a single entity, so only one of them requires cerifSupported="true". -->
+  <field cerifSupported="true">
+    <name>PUBLICATION_TITLE</name>
+    <displayName>Publication Title</displayName>
+  </field>
+  <field cerifSupported="false">
+    <name>PUBLICATION_LANG_CODE</name>
+    <displayName>Publication Language Code</displayName>
+  </field>  
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_ABSTRACT</name>
+    <displayName>Publication Abstract</displayName>
+  </field>
+
+  <field cerifSupported="true">
+    <name>PUBLICATION_AUTHOR</name>
+    <displayName>Publication Author</displayName>
+  </field>
+
+  <field cerifSupported="true">
+    <name>PUBLICATION_PUBLISHER</name>
+    <displayName>Publication Publisher</displayName>
+  </field>  
+      
+  <field cerifSupported="true">
+    <name>PUBLICATION_AUTHOR_COUNTRY_CODE</name>
+    <displayName>Publication Author Country code</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBLICATION_DOI</name>
+    <displayName>Publication Digital Object Identifier (DOI)</displayName>
+  </field>
+  
+  <field cerifSupported="true">
+    <name>PUBMED_ID</name>
+    <displayName>PubMed identifier</displayName>
+  </field>
+  
+  <!--                     -->
+  <!-- Conference          -->
+  <field cerifSupported="true">
+    <name>CONFERENCE_LOCATION</name>
+    <displayName>Publication Conference Location</displayName>
+  </field>
+  <field cerifSupported="true">
+    <name>CONFERENCE_START_DATE</name>
+    <displayName>Publication Conference Location</displayName>
+  </field>
+  <field cerifSupported="true">
+    <name>CONFERENCE_END_DATE</name>
+    <displayName>Publication Conference Location</displayName>
+  </field>
+</cdm>

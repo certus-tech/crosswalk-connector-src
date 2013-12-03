@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "UKRISSCrosswalkTool.ent">
+%BOOK_ENTITIES;
+]>
+<bookinfo id="book-UKRISSCrosswalkTool-UKRISSCrosswalkTool">
+  <title>UKRISSCrosswalkTool</title>
+
+  <subtitle>Crosswalk Connector User Documentation</subtitle>
+
+  <productname>Crosswalk</productname>
+
+  <productnumber>0.1</productnumber>
+
+  <edition>0</edition>
+
+  <pubsnumber>0</pubsnumber>
+
+  <abstract>
+    <para>Welcome to the home site of the UKRISS Crosswalk Connector Tool. This document describes how to install, implement and configure the connector tool for the Crosswalk project.</para>
+
+    <para>Crosswalk is available as a download from this site, and is freely available to the public under the GPL3 open source licence.</para>
+  </abstract>
+
+  <corpauthor><inlinemediaobject>
+      <imageobject>
+        <imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+      </imageobject>
+    </inlinemediaobject></corpauthor>
+
+  <xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</bookinfo>

@@ -1,0 +1,34 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfPers_Country with PUBLICATION_AUTHOR_COUNTRY_CODE exists
+  if cfPersId with PUBLICATION_AUTHOR exists
+    do nothing
+  else
+    create cfPersId = PUBLICATION_AUTHOR
+else
+  create cfPers_Country with cfPersId = PUBLICATION_AUTHOR
+:)
+
+declare variable $PUBLICATION_AUTHOR external;
+declare variable $PUBLICATION_AUTHOR_COUNTRY_CODE external;
+
+let $countryCode := /cf:CERIF/cf:cfPers_Country[
+  cf:cfPersId = $PUBLICATION_AUTHOR and cf:cfCountryCode = $PUBLICATION_AUTHOR_COUNTRY_CODE
+]
+return
+if ($PUBLICATION_AUTHOR and $PUBLICATION_AUTHOR_COUNTRY_CODE) then (
+  if ($countryCode) then (
+      (: No need to modify anything :)
+  ) else (
+    insert node
+      <cf:cfPers_Country>
+        <cf:cfPersId>{string($PUBLICATION_AUTHOR)}</cf:cfPersId>        
+        <cf:cfCountryCode>{string($PUBLICATION_AUTHOR_COUNTRY_CODE)}</cf:cfCountryCode>
+        <cf:cfClassId>cf7799e0-3477-11e1-b86c-0800200c9a66</cf:cfClassId> <!-- CERIF 1.3 Semantics -->
+        <cf:cfClassSchemeId>6e0d9af0-1cd6-11e1-8bc2-0800200c9a66</cf:cfClassSchemeId>
+      </cf:cfPers_Country>
+    into /cf:CERIF
+  )
+
+) else ()

@@ -1,0 +1,30 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfResPublAbstr with PUBLICATION_ID exists
+  update cfAbstr = PUBLICATION_ABSTRACT
+else
+  create cfResPublAbstr for PUBLICATION_ID with cfAbstr = PUBLICATION_ABSTRACT
+:)
+
+declare variable $PUBLICATION_ABSTRACT external;
+declare variable $PUBLICATION_ID external;
+
+let $publication := /cf:CERIF/cf:cfResPubl[cf:cfResPublId = $PUBLICATION_ID]
+return
+if ($PUBLICATION_ID and $PUBLICATION_ABSTRACT) then (
+  if ($publication) then (
+    if ($publication/cf:cfAbstr) then (
+      (: No need to modify anything. :)
+    ) else (
+      insert node <cf:cfAbstr cfLangCode="en" cfTrans="o">{string($PUBLICATION_ABSTRACT)}</cf:cfAbstr>
+      as last into $publication
+    )
+  ) else (
+    insert node <cf:cfResPubl>
+                  <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                  <cf:cfAbstr cfLangCode="en" cfTrans="o">{string($PUBLICATION_ABSTRACT)}</cf:cfAbstr>
+                </cf:cfResPubl>
+    into /cf:CERIF
+  )
+) else ()

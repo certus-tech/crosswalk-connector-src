@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- ============================================================= -->
+<!--     ANT Script for xml-update API                             -->
+<!-- ============================================================= -->
+<project name="xml-update" default="build" basedir="../../">
+
+  <property file="install/xml-update/build.properties" />
+
+  <target name="init" description="Creates necessary temp dirs">
+    <mkdir dir="${tmp.dir}" />
+    <mkdir dir="${tmp.dir}/${short.name}" />
+    <mkdir dir="${tmp.dir}/${short.name}/classes" />
+    <mkdir dir="${tmp.dir}/${short.name}/dist" />
+  </target>
+
+  <target name="compile" depends="init" description="Compiles ${short.name}">
+    <javac includeantruntime="false" destdir="${tmp.dir}/${short.name}/classes"
+           debug="${java.debug}"
+           classpath="${build.classpath}"
+    >
+      <src path="code/XQUF/src"/>
+    </javac>
+  </target>
+  
+  <target name="build" depends="compile" description="Builds ${short.name}">
+    <jar destfile="${tmp.dir}/${short.name}/dist/${jar.name}">
+      <fileset dir="${tmp.dir}/${short.name}/classes"/>
+    </jar>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${tmp.dir}/${short.name}"/>
+  </target>
+
+</project>

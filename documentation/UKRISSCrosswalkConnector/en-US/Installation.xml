@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "UKRISSCrosswalkTool.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-UKRISSCrosswalkTool-Installation">
+  <title>Installation</title>
+
+  <section id="sect-UKRISSCrosswalkTool-Installation-Section_1">
+    <title>Overview</title>
+
+    <para>This chapter details how to install Crosswalk on your system. There are two parts to the installation:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Installation of PDI Kettle.</para>
+      </listitem>
+
+      <listitem>
+        <para>Installation of plugins designed for Crosswalk.</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section id="sect_Installation_Procedure">
+    <title>Installating PDI</title>
+
+    <para>To install PDI, first visit the Pentaho Kettle website and <ulink url="http://sourceforge.net/projects/pentaho/files/Data%20Integration/">download</ulink> the software. NOTE: The plugins
+    developed for Crosswalk have been tested against version 4.2.1 of Kettle. Certus Technology cannot guarantee the correct operation of these plugins on later versions of Kettle.</para>
+
+    <para>Follow the <ulink url="http://wiki.pentaho.com/display/EAI/01.+Installing+Kettle">instructions</ulink> on the Pentaho website to install the software.</para>
+  </section>
+
+  <section id="sect-UKRISSCrosswalkTool-Installation-Section_2">
+    <title>Installing Crosswalk plugins</title>
+
+    <para>The Crosswalk plugins are available from <ulink url="https://github.com/">GitHub</ulink>. Search for the "crosswalk-connector-bin" project and download the directory. On examining the
+    downloaded files, you will notice the directory pattern</para>
+
+    <para><programlisting>kettle/plugins/steps</programlisting>This mimics the directory structure of PDI Kettle; to install the plugins, simply copy the steps directory from the downloaded file
+    location to the same location in the installation of Kettle you performed in step 2 of this chapter. On starting Kettle, the plugins will be available to use.</para>
+  </section>
+</chapter>

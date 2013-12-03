@@ -1,0 +1,30 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfResPubl with PUBLICATION_ID exists
+  update cfTotalPages = PUBLICATION_TOTAL_PAGES
+else
+  create cfResPubl for PUBLICATION_ID with cfTotalPages = PUBLICATION_TOTAL_PAGES
+:)
+
+declare variable $PUBLICATION_TOTAL_PAGES external;
+declare variable $PUBLICATION_ID external;
+
+let $resPubl := /cf:CERIF/cf:cfResPubl[cf:cfResPublId = $PUBLICATION_ID]
+return
+if ($PUBLICATION_ID and $PUBLICATION_TOTAL_PAGES) then (
+  if ($resPubl) then (
+    if ($resPubl/cf:cfTotalPages) then (
+      (: No need to modify anything. :)
+    ) else (
+      insert node <cf:cfTotalPages>{string($PUBLICATION_TOTAL_PAGES)}</cf:cfTotalPages>
+      after $resPubl/cf:cfResPublId
+    )
+  ) else (
+    insert node <cf:cfResPubl>
+                  <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+                  <cf:cfTotalPages>{string($PUBLICATION_TOTAL_PAGES)}</cf:cfTotalPages>
+                </cf:cfResPubl>
+    into /cf:CERIF
+  )
+) else ()

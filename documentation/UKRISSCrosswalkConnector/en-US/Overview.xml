@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "UKRISSCrosswalkTool.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-UKRISSCrosswalkTool-Overview">
+  <title>Overview</title>
+
+  <section id="sect-UKRISSCrosswalkTool-Overview-Section_1">
+    <title>Project Background</title>
+
+    <para>A crosswalk tool, or connector, was required in order to demonstrate a proof of concept for the transfer of data from research institutions to funding bodies. The primary function of the
+    tool developed is to collate information into a prescribed format and to transfer these data in a single transaction.</para>
+
+    <para>The tool had to be able to read from a number of divergent data sources, map them to a CERIF XML standard and transport them to a defined destination.</para>
+
+    <para>The tool has been tested on data provided by Exeter and partner institutions during the UKRISS project. It was not intended that the tool should be developed for production.</para>
+  </section>
+
+  <section id="sect-UKRISSCrosswalkTool-Overview-Section_2">
+    <title>PDI (Pentaho Kettle)</title>
+
+    <para>The Pentaho Data Integration Community Edition (PDI CE), also known as Kettle, was successfully trialled in an earlier project (RMAS). It was therefore used as the basis of this part of the
+    project. NB: For simplicity, the term <emphasis>PDI</emphasis> will be used throughout this document to refer to this software.</para>
+
+    <para>PDI uses the concept of <emphasis>Steps</emphasis> to represent actions performed on data, which can be arranged into <emphasis>transformations</emphasis>, allowing sequences of actions to
+    be performed to manipulate data. Transformations can be performed in sequence in a <emphasis>job</emphasis>, meaning that modular approach can be taken to data manipulation, while maintaining the
+    power of the actions can be performed.</para>
+
+    <para>A graphical interface allows the user to see how the data flows as it is handled with jobs and transformations.</para>
+  </section>
+
+  <section id="sect-UKRISSCrosswalkTool-Overview-Section_3">
+    <title>PDI Customisation</title>
+
+    <para>To facilitate the use of PDI in the Crosswalk project, the concept of the CERIF-backed Canonical Data Model (CDM) is introduced. This is a model to which data can be mapped and passed between
+    Transformations and can then be efficiently serialised into CERIF. Custom plug-ins have been developed for mapping data to the CDM and serialising the CDM to CERIF, and are provided with the
+    release.</para>
+  </section>
+</chapter>

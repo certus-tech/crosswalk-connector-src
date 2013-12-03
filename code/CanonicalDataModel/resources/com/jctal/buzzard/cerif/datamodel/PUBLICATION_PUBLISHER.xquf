@@ -1,0 +1,42 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfOrgUnit_ResPubl with PUBLICATION_PUBLISHER exists
+  if cfResPublId with PUBLICATION_ID exists
+    do nothing
+  else
+    create cfResPublId with cfResPublId = PUBLICATION_ID
+else
+  create cfOrgUnit_ResPubl with cfPersId = PUBLICATION_PUBLISHER
+  create cfResPublId = PUBLICATION_ID
+:)
+
+declare variable $PUBLICATION_PUBLISHER external;
+declare variable $PUBLICATION_ID external;
+
+let $publicationPublisher := /cf:CERIF/cf:cfOrgUnit_ResPubl[
+  cf:cfOrgUnitId = $PUBLICATION_PUBLISHER and cf:cfResPublId = $PUBLICATION_ID
+]
+let $publisher := /cf:CERIF/cf:cfOrgUnit[cf:cfOrgUnitId = $PUBLICATION_PUBLISHER]
+return
+if ($PUBLICATION_PUBLISHER and $PUBLICATION_ID) then (
+  if ($publicationPublisher) then (
+      (: No need to modify anything :)
+  ) else (
+    insert node
+      <cf:cfOrgUnit_ResPubl>
+        <cf:cfOrgUnitId>{string($PUBLICATION_PUBLISHER)}</cf:cfOrgUnitId>        
+        <cf:cfResPublId>{string($PUBLICATION_ID)}</cf:cfResPublId>
+        <cf:cfClassId>7ef398b2-1cfe-11e1-8bc2-0800200c9a66</cf:cfClassId> <!-- 'Publisher' (CERIF Vocabulary) -->
+        <cf:cfClassSchemeId>b7135ad0-1d00-11e1-8bc2-0800200c9a66; 6b2b7d26-3491-11e1-b86c-0800200c9a66</cf:cfClassSchemeId> <!-- 'Publisher' (CERIF Vocabulary) -->
+      </cf:cfOrgUnit_ResPubl>
+    into /cf:CERIF
+  ),
+  if ($publisher) then (
+    (: No need to modify anything :)
+  ) else (
+    insert node <cf:cfOrgUnit><cf:cfOrgUnitId>{string($PUBLICATION_PUBLISHER)}</cf:cfOrgUnitId></cf:cfOrgUnit>
+    into /cf:CERIF
+  )
+
+) else ()

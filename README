@@ -1,0 +1,26 @@
+Crosswalk project for UKRISS.
+
+Copyright (c) 2013 Certus Technology Associates Limited.
+http://www.certus-tech.com/
+
+--------------------------------------------------------------------------------
+
+Directory structure:
+
+* code - Source code for Kettle plugins and libraries.
+* documentation - Documentation source.
+* ext - Support files required for documentation build.
+* install - Build scripts for Kettle plugins, libraries and documentation.
+* lib - Third party compiled libraries.
+
+--------------------------------------------------------------------------------
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.

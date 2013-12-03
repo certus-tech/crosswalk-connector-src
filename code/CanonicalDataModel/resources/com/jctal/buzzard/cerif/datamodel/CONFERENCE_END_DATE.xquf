@@ -1,0 +1,30 @@
+declare namespace cf = "urn:xmlns:org:eurocris:cerif-1.6-2";
+
+(:
+if cfEvent  with CONFERENCE_LOCATION exists
+  update cfEndDate = CONFERENCE_END_DATE
+else
+  create cfEvent for CONFERENCE_LOCATION with cfEndDate = CONFERENCE_END_DATE
+:)
+
+declare variable $CONFERENCE_END_DATE external;
+declare variable $CONFERENCE_LOCATION external;
+
+let $event := /cf:CERIF/cf:cfEvent[cf:cfEventId = $CONFERENCE_LOCATION]
+return
+if ($CONFERENCE_END_DATE and $CONFERENCE_LOCATION) then (
+  if ($event) then (
+    if ($event/cf:cfEndDate) then (
+      (: No need to modify anything. :)
+    ) else (
+      insert node <cf:cfEndDate>{string($CONFERENCE_END_DATE)}</cf:cfEndDate>
+      as last into $event
+    )
+  ) else (
+    insert node <cf:cfEvent>
+                  <cf:cfEventId>{string($CONFERENCE_LOCATION)}</cf:cfEventId>
+                  <cf:cfEndDate>{string($CONFERENCE_END_DATE)}</cf:cfEndDate>
+                </cf:cfEvent>
+    into cf:CERIF
+  )
+) else ()
